@@ -1,0 +1,106 @@
+//需与词法分析器生成的代码相结合
+#define PDA__count_state 46//代表项目集的个数
+#define PDA__count_ele 23//代表元素(终结符/非终结符)的个数
+#define PDA__edge_NUM 2146435072//这个常数是计算归约时用，它表示一个int的后11位（不带符号位）的值，//用于计算归约退的距离 
+int PDA__stack[1000];//PDA__stack代表所用堆栈 
+int PDA__state;//PDA__state代表当前lr状态，为堆栈指针,有值
+int PDA__success;//如果消耗完了输入串，而且栈只剩该状态，表明无语法错误 
+int PDA__end;//该数是表征输入串结束的符号，即为书中的# 
+int PDA__array[PDA__count_state+1][PDA__count_ele+1];//代表项目集转换表
+//转换表如为正表示移进，负表示归约，其中前14位表示归约的长度，后面的表示要归约成的项目集 
+int PDA__next;//用于记录面对一个元素时要到达的状态
+int PDA__now;//记录现在所属的状态
+int PDA__back_num,PDA__reduce_num;//back记录需要退的个数，reduce记录归约成的元素
+void PDA__upload(int x,int &length,int & destination)//用于解码PDA__array中的负数，即为归约的情况
+{
+	x=-x;
+	length=(x&PDA__edge_NUM)>>20;
+	if(length)
+	destination=x-(length<<20);
+	else destination=x;
+}
+void PDA__init(char* ch)
+{
+	int i,j;
+	ifstream PDA__cin(ch);
+	PDA__cin>>PDA__success>>PDA__end; 
+	for(i=1;i<=PDA__count_state;i++)
+	{
+		for(j=0;j<=PDA__count_ele;j++)
+		{
+			PDA__cin>>PDA__array[i][j];
+		}
+	}
+}
+void PDA__print()//输入堆栈中状态，可以用来debug
+{
+	for(int i=0;i<=PDA__state;i++)
+	{
+		cout<<PDA__stack[i]<<;
+	}
+	cout<<endl;
+}
+void PDA__step(int x)
+{
+	PDA__next=PDA__array[PDA__stack[PDA__state]][x];
+	if(PDA__next>0)
+	{
+		PDA__stack[PDA__state+1]=PDA__next;
+		PDA__state++;
+		flag_token=0;
+	}
+	else if(PDA__next<0)
+	{
+		PDA__upload(PDA__next,PDA__back_num,PDA__reduce_num);
+		PDA__state-=PDA__back_num;
+		PDA__step(PDA__reduce_num);
+		flag_token=1;
+	}
+	else
+	{
+		PDA__now=PDA__stack[PDA__state];
+		if(!PDA__array[temp][0]) 
+		{
+			//error
+		}
+		else
+		{
+			PDA__upload(PDA__array[PDA__now][0],PDA__back_num,PDA__reduce_num);
+			PDA__state-=PDA__back_num;
+			PDA__step(PDA__reduce_num);
+			flag_token=1;
+		}
+	}
+	//PDA__print(); 
+}
+void PDA__deal()
+{
+	flag_token=0;
+	DFA__node temp=now_token();
+	while(temp.num)//如为0则表示可能遇到未定义的特殊字符或者全文分析完毕，以后需要修改分辨这两种状态 
+	{
+		PDA__step(temp.num);
+		temp=now_token();
+	}
+	while(flag_token)
+	{
+		PDA__step(PDA__end);
+	}
+}
+int main()
+{
+	//这些最好放在处理完DFA的init后
+	PDA__init("cfg_LR_slr_array.txt");
+	PDA__state=0;
+	PDA__stack[0]=1;
+	PDA__deal();
+	if(PDA__stack[PDA__state]==PDA__success)//仅输出检测结果，可以删除掉
+	{
+		cout<<"语法检测成功";
+	}
+	else
+	{
+		cout<<"语法检测失败";
+	}
+	cout<<endl;
+}

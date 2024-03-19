@@ -1,0 +1,243 @@
+nonterminal:
+A -4
+B -5
+C -6
+D -7
+E -8
+F -9
+S -3
+S__begin -1
+T -2
+
+terminal:
+$end 9
+: 8
+; 6
+ep 22
+id 3
+left 18
+non 2
+num 4
+pri 20
+result 21
+right 19
+single 5
+ter 1
+| 7
+
+num:
+1:1 2:2 3:3 4:4 5:5 6:6 7:7 8:8 9:9 10:-1 11:-2 12:-3 13:-4 14:-5 15:-6 16:-7 17:-8 18:18 19:19 20:20 21:21 22:22 23:-9 stack:
+-2 9 0 -3 -2 0 0 1 -4 6 0 2 -5 6 0 3 8 -6 6 0 18 -7 6 0 19 -8 6 0 20 -9 6 0 21 3 6 0 3 -4 0 5 -4 0 0 3 -5 0 0 3 -6 0 5 -6 0 7 -6 0 0 22 0 3 -7 0 0 3 -8 0 0 3 -9 0 0 0 
+stack_approach:
+1 1 4 2 2 5 9 3 3 3 13 3 3 3 18 3 3 3 3 22 3 3 3 26 3 3 3 30 3 3 3 34 3 3 3 37 4 4 40 4 4 41 44 5 5 45 48 6 6 51 6 6 54 6 6 55 57 6 60 7 7 61 64 8 8 65 68 9 9 69 0 0 
+first[A]: 0 3 5 
+first[B]: 0 3 
+first[C]: 0 3 5 7 22 
+first[D]: 0 3 
+first[E]: 0 3 
+first[F]: 0 3 
+first[S]: 1 2 3 18 19 20 21 
+first[S__begin]: 1 2 3 9 18 19 20 21 
+first[T]: 0 1 2 3 18 19 20 21 
+
+follow[A]: 6 
+follow[B]: 6 
+follow[C]: 6 
+follow[D]: 6 
+follow[E]: 6 
+follow[F]: 6 
+follow[S]: 1 2 3 9 18 19 20 21 
+follow[S__begin]: 
+follow[T]: 9 
+
+LR0:
+1:
+S__begin:°ÒT $end     T:°ÒS T     F:°Ò    S:°Òter A ;     S:°Ònon B ;     S:°Òid : C ;     S:°Òleft D ;     S:°Òright E ;     S:°Òpri F ;     S:°Òresult id ;     
+2:
+S__begin:T °Ò$end     
+11:
+S__begin:T $end °Ò    
+3:
+T:°ÒS T     T:S °ÒT     F:°Ò    S:°Òter A ;     S:°Ònon B ;     S:°Òid : C ;     S:°Òleft D ;     S:°Òright E ;     S:°Òpri F ;     S:°Òresult id ;     
+12:
+T:S T °Ò    
+4:
+S:ter °ÒA ;     A:°Òid A     A:°Òsingle A     :°Ò    
+13:
+S:ter A °Ò;     
+26:
+S:ter A ; °Ò    
+5:
+S:non °ÒB ;     B:°Òid B     :°Ò    
+16:
+S:non B °Ò;     
+29:
+S:non B ; °Ò    
+6:
+S:id °Ò: C ;     
+18:
+S:id : °ÒC ;     C:°Òid C     C:°Òsingle C     C:°Ò| C     :°Ò    C:°Òep     
+31:
+S:id : C °Ò;     
+43:
+S:id : C ; °Ò    
+7:
+S:left °ÒD ;     D:°Òid D     :°Ò    
+19:
+S:left D °Ò;     
+36:
+S:left D ; °Ò    
+8:
+S:right °ÒE ;     E:°Òid E     :°Ò    
+21:
+S:right E °Ò;     
+38:
+S:right E ; °Ò    
+9:
+S:pri °ÒF ;     F:°Òid F     :°Ò    
+23:
+S:pri F °Ò;     
+40:
+S:pri F ; °Ò    
+10:
+S:result °Òid ;     
+25:
+S:result id °Ò;     
+42:
+S:result id ; °Ò    
+14:
+A:°Òid A     A:id °ÒA     A:°Òsingle A     :°Ò    
+15:
+A:°Òid A     A:°Òsingle A     A:single °ÒA     :°Ò    
+27:
+A:id A °Ò    
+28:
+A:single A °Ò    
+17:
+B:°Òid B     B:id °ÒB     :°Ò    
+30:
+B:id B °Ò    
+32:
+C:°Òid C     C:id °ÒC     C:°Òsingle C     C:°Ò| C     :°Ò    C:°Òep     
+33:
+C:°Òid C     C:°Òsingle C     C:single °ÒC     C:°Ò| C     :°Ò    C:°Òep     
+34:
+C:°Òid C     C:°Òsingle C     C:°Ò| C     C:| °ÒC     :°Ò    C:°Òep     
+44:
+C:id C °Ò    
+45:
+C:single C °Ò    
+46:
+C:| C °Ò    
+35:
+C:ep °Ò    
+20:
+D:°Òid D     D:id °ÒD     :°Ò    
+37:
+D:id D °Ò    
+22:
+E:°Òid E     E:id °ÒE     :°Ò    
+39:
+E:id E °Ò    
+24:
+F:°Òid F     F:id °ÒF     :°Ò    
+41:
+F:id F °Ò    
+
+ans_reduce:
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 S__begin T -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 S A A S B -1 -1 -1 -1 C S D S E S F S S C C C 
+ans_back:
+0  0  0  0  0  0  0  0  0  0  2  2  0  0  0  0  0  0  0  0  0  0  0  0  0  3  2  2  3  2  0  0  0  0  1  3  2  3  2  3  2  3  4  2  2  2  
+edge:
+1:
+ter:4 non:5 id:6 $end:-11 T:2 S:3 left:7 right:8 pri:9 result:10 
+2:
+$end:11 
+3:
+ter:4 non:5 id:6 $end:-11 T:12 S:3 left:7 right:8 pri:9 result:10 
+4:
+id:14 single:15 ;:-13 A:13 
+5:
+id:17 ;:-14 B:16 
+6:
+::18 
+7:
+id:20 ;:-16 D:19 
+8:
+id:22 ;:-17 E:21 
+9:
+id:24 ;:-23 F:23 
+10:
+id:25 
+11:
+
+12:
+$end:-2097163 
+13:
+;:26 
+14:
+id:14 single:15 ;:-13 A:27 
+15:
+id:14 single:15 ;:-13 A:28 
+16:
+;:29 
+17:
+id:17 ;:-14 B:30 
+18:
+id:32 single:33 ;:-15 |:34 C:31 ep:35 
+19:
+;:36 
+20:
+id:20 ;:-16 D:37 
+21:
+;:38 
+22:
+id:22 ;:-17 E:39 
+23:
+;:40 
+24:
+id:24 ;:-23 F:41 
+25:
+;:42 
+26:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+27:
+;:-2097165 
+28:
+;:-2097165 
+29:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+30:
+;:-2097166 
+31:
+;:43 
+32:
+id:32 single:33 ;:-15 |:34 C:44 ep:35 
+33:
+id:32 single:33 ;:-15 |:34 C:45 ep:35 
+34:
+id:32 single:33 ;:-15 |:34 C:46 ep:35 
+35:
+;:-1048591 
+36:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+37:
+;:-2097168 
+38:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+39:
+;:-2097169 
+40:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+41:
+;:-2097175 
+42:
+ter:-3145740 non:-3145740 id:-3145740 $end:-3145740 left:-3145740 right:-3145740 pri:-3145740 result:-3145740 
+43:
+ter:-4194316 non:-4194316 id:-4194316 $end:-4194316 left:-4194316 right:-4194316 pri:-4194316 result:-4194316 
+44:
+;:-2097167 
+45:
+;:-2097167 
+46:
+;:-2097167 

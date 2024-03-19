@@ -1,0 +1,10 @@
+#nonterminal	E T F S;
+#result	LR0;
+S: E  T  F;
+E:T
+  |E    /+    T;
+T:F   
+  | T    /*     F;
+F: /i	
+   |   /(    E    /) 
+  | epsilon ;

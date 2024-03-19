@@ -1,0 +1,32 @@
+#nonterminal	T S A B C D E F ;
+#terminal		ter  1  non  2  left  18  right  19  pri  20   result  21  id  3  ep  22  single 5 ;
+#terminal 	/:  8 num 4  /; 6  /| 7   ;
+#result SLR;
+T: S T 
+  | epsilon;
+S: ter A /;
+ |  non B /;
+ |  id /: C /;
+ |  left D /;
+ | right E /;
+ | pri F /;
+ | result id /; ;
+A: id int A 
+ | single int A
+ | epsilon ;
+B: id B 
+ | epsilon ;
+C: id C
+ | single C
+ | /| C
+ | epsilon 
+ | ep;
+
+D: id D
+ | epsilon;
+
+E: id E
+ | epsilon;
+
+F: id int F
+ | epsilon;

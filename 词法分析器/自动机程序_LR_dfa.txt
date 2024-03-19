@@ -1,0 +1,111 @@
+#include<fstream>
+#include<stack>
+#include<iostream>
+#include<queue>
+using namespace std;
+int DFA__state;//DFA__state代表当前状态
+struct DFA__result_node{
+	int result,indicator;
+}DFA__s;
+queue<DFA__result_node> DFA__result;//DFA__result代表目前识别出来的结果
+int DFA__array[11][128];
+int count_DFA;//count_DFA代表DFA的状态个数
+int DFA__to[11],DFA__from;//DFA__to代表某个状态是否为接受状态，以及如是应输出什么
+struct DFA__node {
+	int num;
+	string content;
+};
+string DFA__record_str;
+DFA__node nowken;
+int flag_token;//如果为1，表示读入下一个，否则读入原先的
+void DFA__init()
+{
+	int i,j;
+	ifstream DFA__mycin("自动机程序_LR_array.txt");
+	DFA__mycin>>count_DFA;
+	for(i=0;i<count_DFA;i++)
+	{
+		for(j=0;j<128;j++)
+		{
+			DFA__mycin>>DFA__array[i][j];
+		}
+	}
+	DFA__mycin>>DFA__from;
+	for(i=0;i<count_DFA;i++)
+	{
+		DFA__mycin>>DFA__to[i];
+	}
+}
+void DFA__deal_state(string &str)
+{
+	DFA__s.indicator=-1;
+	DFA__s.result=-1;
+	int DFA__now=0;
+	DFA__record_str="";
+	int l=str.size();
+	DFA__state=DFA__from;
+	while(DFA__now<l)
+	{
+		if(DFA__to[DFA__state]!=-1)
+		{
+			DFA__s.indicator=DFA__now;
+			DFA__s.result=DFA__to[DFA__state];
+		}
+		if(DFA__array[DFA__state][str[DFA__now]]==-1)
+		{
+			DFA__record_str=str.substr(DFA__now);
+			break;
+		}
+		DFA__state=DFA__array[DFA__state][str[DFA__now]];
+		DFA__now++;
+	}
+	if(DFA__to[DFA__state]!=-1)
+	{
+		DFA__s.result=DFA__to[DFA__state];
+		DFA__s.indicator=DFA__now;
+	}
+}
+DFA__node get_token()
+{
+	string str;
+	if(DFA__record_str=="")
+	{
+		cin>>str;
+		DFA__deal_state(str);
+	}
+	else
+	{
+		str=DFA__record_str;
+		DFA__deal_state(str);
+	}
+	DFA__node ans_get;
+	if(DFA__s.result==-1)
+	{
+		//error();//读入无法被词法分析器识别 
+		ans_get.num=0;
+		ans_get.content="";
+	}
+	else
+	{
+		ans_get.num=DFA__s.result;
+		ans_get.content=str.substr(0,DFA__s.indicator);
+	}
+	return ans_get;
+}
+DFA__node now_token()
+{
+	if(!flag_token)
+	{
+		flag_token=1;
+		nowken=get_token();
+	}
+	return nowken;
+}
+int main()
+{
+	DFA__init();
+	char* file_name=;//此处需要填文件名
+	flag_token=0;
+	freopen(file_name,"r",stdin);
+	DFA__state=DFA__from;
+}
